@@ -52,6 +52,8 @@ func generateLoad(count int) error {
 		resp.Body.Close()
 	}
 
+	http.Get(*addr + "/quit")
+
 	return nil
 }
 
