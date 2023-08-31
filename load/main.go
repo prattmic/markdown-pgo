@@ -20,6 +20,7 @@ var (
 	addr   = flag.String("addr", "http://localhost:8080", "address of server")
 
 	count = flag.Int("count", math.MaxInt, "Number of requests to send")
+	quit  = flag.Bool("quit", false, "Send /quit request after sending all requests")
 )
 
 // generateLoad sends count requests to the server.
@@ -52,8 +53,6 @@ func generateLoad(count int) error {
 		resp.Body.Close()
 	}
 
-	http.Get(*addr + "/quit")
-
 	return nil
 }
 
@@ -62,5 +61,9 @@ func main() {
 
 	if err := generateLoad(*count); err != nil {
 		log.Fatal(err)
+	}
+
+	if *quit {
+		http.Get(*addr + "/quit")
 	}
 }
